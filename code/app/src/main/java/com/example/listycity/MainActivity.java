@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddCityFragment fragment = new AddCityFragment();
-                fragment.editExistingCity(dataList.get(position), position);
+                fragment.editExistingCity(position);
                 fragment.show(getSupportFragmentManager(), "Edit City");
             }
         });

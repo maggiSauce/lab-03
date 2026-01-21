@@ -14,7 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class AddCityFragment extends DialogFragment {
     // null values to later check if we are adding or editing a city
-    City city;
+    boolean editActiveCity = false;
     int position;
 
     interface AddCityDialogListener {
@@ -45,7 +45,7 @@ public class AddCityFragment extends DialogFragment {
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        if (this.city == null) {
+        if (!this.editActiveCity) {
             return builder
                     .setView(view)
                     .setTitle("Add a city")
@@ -70,8 +70,8 @@ public class AddCityFragment extends DialogFragment {
         }
     }
 
-    public void editExistingCity(City city, int position) {
-        this.city = city;
+    public void editExistingCity(int position) {
+        this.editActiveCity = true;
         this.position = position;
     }
 }
