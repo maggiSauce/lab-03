@@ -13,9 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class AddCityFragment extends DialogFragment {
+    // null values to later check if we are adding or editing a city
+    City city;
+    int position;
 
     interface AddCityDialogListener {
         void addCity(City city);
+        void editCity(City city, int position);
     }
 
     private AddCityDialogListener listener;
@@ -41,15 +45,33 @@ public class AddCityFragment extends DialogFragment {
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        return builder
-                .setView(view)
-                .setTitle("Add a city")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Add", (dialog, which) -> {
-                    String cityName = editCityName.getText().toString();
-                    String provinceName = editProvinceName.getText().toString();
-                    listener.addCity(new City(cityName, provinceName));
-                })
-                .create();
+        if (this.city == null) {
+            return builder
+                    .setView(view)
+                    .setTitle("Add a city")
+                    .setNegativeButton("Cancel", null)
+                    .setPositiveButton("Add", (dialog, which) -> {
+                        String cityName = editCityName.getText().toString();
+                        String provinceName = editProvinceName.getText().toString();
+                        listener.addCity(new City(cityName, provinceName));
+                    })
+                    .create();
+        } else {
+            return builder
+                    .setView(view)
+                    .setTitle("Edit a city")
+                    .setNegativeButton("Cancel", null)
+                    .setPositiveButton("Edit", (dialog, which) -> {
+                        String cityName = editCityName.getText().toString();
+                        String provinceName = editProvinceName.getText().toString();
+                        listener.editCity(new City(cityName, provinceName), this.position);
+                    })
+                    .create();
+        }
+    }
+
+    public void editExistingCity(City city, int position) {
+        this.city = city;
+        this.position = position;
     }
 }
